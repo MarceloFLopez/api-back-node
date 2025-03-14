@@ -66,5 +66,5 @@ async function atualizarCliente(id, novoNome) {
     await buscarTodosClientes();
     await buscarClientePorNome("Cl");
     await buscarClientePorId(1); // Substitua pelo ID correto
-    await atualizarCliente(1, "Cliente 1 Atualizado"); // Substitua pelo ID correto
+    // await atualizarCliente(1, "Cliente 1 Atualizado"); // Substitua pelo ID correto
 })();

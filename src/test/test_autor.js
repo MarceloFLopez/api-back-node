@@ -62,9 +62,9 @@ async function atualizarAutor(id, novoNome) {
 
 // 🚀 Executar os testes
 (async () => {
-    await criarAutor("Tecnologia");
+    // await criarAutor("Tecnologia");
     await buscarTodosAutores();
-    await buscarAutorPorNome("Tec");
-    await buscarAutorPorId(1); // Substitua pelo ID correto
-    await atualizarAutor(1, "Tech Atualizado"); // Substitua pelo ID correto
+    // await buscarAutorPorNome("Tec");
+    // await buscarAutorPorId(1); // Substitua pelo ID correto
+    // await atualizarAutor(1, "Tech Atualizado"); // Substitua pelo ID correto
 })();

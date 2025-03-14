@@ -6,9 +6,23 @@ class RevistaController {
         
         try {
             const {
-                titulo, pdfdata, edicao, chamadaprinciapl, palavrachave,
-                numeropaginas, ean, isbn, bisac, descricao, periodicidade,
-                precocapa, arquivoaberto, observacao, editoraId, autorId, categorias
+                titulo, 
+                pdfdata, 
+                edicao, 
+                chamadaprinciapl, 
+                palavrachave,
+                numeropaginas, 
+                ean, 
+                isbn, 
+                bisac, 
+                descricao, 
+                periodicidade,
+                precocapa, 
+                arquivoaberto, 
+                observacao, 
+                editoraId, 
+                autorId, 
+                categorias
             } = req.body;
 
             // Validação para garantir que os valores obrigatórios existam

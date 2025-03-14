@@ -63,7 +63,7 @@ async function atualizarEditora(id, novoNome) {
 (async () => {
     // await criarEditora("Editora teste 2");
     await buscarTodasEditoras();
-    // await buscarEditoraPorNome("Tes");
-    // await buscarEditoraPorId(1); // Substitua pelo ID correto
-    // await atualizarEditora(2, "Editora Atualizado"); // Substitua pelo ID correto
+    await buscarEditoraPorNome("Tes");
+    await buscarEditoraPorId(1); // Substitua pelo ID correto
+    await atualizarEditora(2, "Editora Atualizado"); // Substitua pelo ID correto
 })();
