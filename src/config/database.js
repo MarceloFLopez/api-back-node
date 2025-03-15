@@ -1,4 +1,4 @@
-const mysql = require('mysql2/promise'); // Usando mysql2/promise para async/await
+const mysql = require('mysql2/promise');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -18,10 +18,10 @@ const pool = mysql.createPool({
 (async () => {
   try {
     const connection = await pool.getConnection();
-    console.log('Conectado ao banco de dados MySQL!');
-    connection.release(); // Libera a conexão de volta ao pool
+    console.log('✅ Conectado ao banco de dados MySQL!');
+    connection.release();
   } catch (error) {
-    console.error('Erro ao conectar ao banco de dados:', error);
+    console.error('❌ Erro ao conectar ao banco de dados:', error);
   }
 })();
 

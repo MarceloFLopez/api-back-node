@@ -11,6 +11,7 @@ const revistaRoutes = require("./routes/RevistaRoutes");
 const artigoRoutes = require('./routes/ArtigoRoutes');
 const programacaoRoutes = require("../src/routes/ProgramacaoRoutes");
 const saqueRoutes = require("../src/routes/SaqueRoutes");
+const usuarioRoutes = require('./routes/UsuarioRoutes');
 
 dotenv.config();
 
@@ -28,6 +29,8 @@ app.use("/api", revistaRoutes);
 app.use("/api", artigoRoutes);
 app.use("/api", programacaoRoutes);
 app.use("/api", saqueRoutes);
+app.use('/api', usuarioRoutes);
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
