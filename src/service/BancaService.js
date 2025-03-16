@@ -97,21 +97,6 @@ static async atualizarBanca(id, novosDados) {
   }
 }
 
-
-  // static async atualizarBanca(id, nome, situacao, ativacaotitulo, formatopdf, prazomedio, site, comoacessar, formapagamento, beneficios, mediaassinantes) {
-  //   try {
-  //     const [result] = await pool.execute(
-  //       "UPDATE banca SET nome = ?, situacao = ?, ativacaotitulo = ?, formatopdf = ?, prazomedio = ?, site = ?, comoacessar = ?, formapagamento = ?, beneficios = ?, mediaassinantes = ? WHERE id = ?",
-  //       [nome, situacao, ativacaotitulo, formatopdf, prazomedio, site, comoacessar, formapagamento, beneficios, mediaassinantes, id]
-  //     );
-  //     if (result.affectedRows === 0) return null;
-  //     return new Banca(id, nome, situacao, ativacaotitulo, formatopdf, prazomedio, site, comoacessar, formapagamento, beneficios, mediaassinantes);
-  //   } catch (error) {
-  //     console.error("Erro ao atualizar banca:", error);
-  //     throw error;
-  //   }
-  // }
-
   static async deletarBanca(id) {
     try {
       const [result] = await pool.execute("DELETE FROM banca WHERE id = ?", [id]);

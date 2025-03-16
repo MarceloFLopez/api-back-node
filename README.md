@@ -11,7 +11,8 @@
    - [Exemplo de Requisição](#exemplo-de-requisição)
 6. [Segurança](#segurança)
 7. [Estrutura do Projeto](#estrutura-do-projeto)
-8. [Como Subir o Projeto](#como-subir-o-projeto)
+8.  
+9. [Como Subir o Projeto](#como-subir-o-projeto)
 
 ---
 
@@ -188,7 +189,7 @@ import axios from 'axios';
 
 const login = async (email, senha) => {
   try {
-    const response = await axios.post('http://localhost:3000/login', { email, senha });
+    const response = await axios.post('http://localhost:3000/api/auth/login', { email, senha });
     const token = response.data.token;
     localStorage.setItem('token', token); // Armazena o token no localStorage
   } catch (error) {
@@ -226,6 +227,7 @@ backend/
 ├── app.js                # Configuração do servidor Express
 ├── package-lock.json     # Lock file para as dependências
 └── package.json          # Dependências e scripts do projeto
+
 ```
 
 ## Como Subir o Projeto
@@ -279,3 +281,5 @@ git push
 ```
 
 Agora você terá sua documentação do back-end configurada no repositório Git!
+Agradecimentos:
+Agradeço ao ChatGPT por sua assistência no desenvolvimento da aplicação e na elaboração da documentação.

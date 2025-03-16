@@ -319,64 +319,6 @@ class RevistaService {
     }
   }
 
-  //   static async atualizarRevista(id, dadosAtualizacao) {
-  //     try {
-  //       // Primeiramente, pegamos a revista existente para garantir que mantemos as outras informações
-  //       const [revistaExistente] = await db.execute(
-  //         "SELECT * FROM revista WHERE id = ?",
-  //         [id]
-  //       );
-
-  //       if (revistaExistente.length === 0) {
-  //         throw new Error("Revista não encontrada");
-  //       }
-
-  //       // Vamos montar o objeto de atualização com os dados passados, mas mantendo os campos não passados
-  //       const camposParaAtualizar = {};
-  //       const campos = [
-  //         "titulo",
-  //         "pdfdata",
-  //         "edicao",
-  //         "chamadaprinciapl",
-  //         "palavrachave",
-  //         "numeropaginas",
-  //         "ean",
-  //         "isbn",
-  //         "bisac",
-  //         "descricao",
-  //         "periodicidade",
-  //         "precocapa",
-  //         "arquivoaberto",
-  //         "observacao",
-  //         "editora_id",
-  //         "autor_id",
-  //       ];
-
-  //       campos.forEach((campo) => {
-  //         if (dadosAtualizacao[campo] !== undefined) {
-  //           camposParaAtualizar[campo] = dadosAtualizacao[campo];
-  //         } else {
-  //           camposParaAtualizar[campo] = revistaExistente[0][campo]; // Mantém os valores antigos
-  //         }
-  //       });
-
-  //       // Agora, fazemos o update no banco de dados com os dados que foram passados
-  //       let setQuery = Object.keys(camposParaAtualizar)
-  //         .map((key) => `${key} = ?`)
-  //         .join(", ");
-
-  //       let values = Object.values(camposParaAtualizar);
-
-  //       const query = `UPDATE revista SET ${setQuery} WHERE id = ?`;
-  //       await db.execute(query, [...values, id]);
-
-  //       // Retornar a revista atualizada
-  //       return { id, ...camposParaAtualizar };
-  //     } catch (error) {
-  //       throw new Error("Erro ao atualizar revista: " + error.message);
-  //     }
-  //   }
-
   static async atualizarRevista(id, dadosAtualizacao) {
     try {
       // Primeiramente, pegamos a revista existente para garantir que mantemos as outras informações

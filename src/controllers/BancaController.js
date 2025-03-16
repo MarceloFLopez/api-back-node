@@ -69,21 +69,6 @@ static async atualizarBanca(req, res) {
   }
 }
 
-
-  // static async atualizarBanca(req, res) {
-  //   try {
-  //     const { id } = req.params;
-  //     const { nome, situacao, ativacaotitulo, formatopdf, prazomedio, site, comoacessar, formapagamento, beneficios, mediaassinantes } = req.body;
-  //     const bancaAtualizada = await BancaService.atualizarBanca(id, nome, situacao, ativacaotitulo, formatopdf, prazomedio, site, comoacessar, formapagamento, beneficios, mediaassinantes);
-  //     if (!bancaAtualizada) {
-  //       return res.status(404).json({ mensagem: "Banca não encontrada para atualização!" });
-  //     }
-  //     return res.status(200).json(bancaAtualizada);
-  //   } catch (error) {
-  //     return res.status(500).json({ mensagem: "Erro ao atualizar banca", erro: error.message });
-  //   }
-  // }
-
   static async deletarBanca(req, res) {
     try {
       const { id } = req.params;

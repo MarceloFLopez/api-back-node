@@ -1,5 +1,5 @@
 // Atualize seu arquivo UsuarioController.js assim:
-
+const authMiddleware = require("../middleware/authMiddleware");
 const UsuarioService = require("../service/UsuarioService");
 const usuarioService = new UsuarioService();
 
@@ -63,9 +63,97 @@ class UsuarioController {
       res.status(404).json({ error: error.message }); // Retorna erro caso o usuário não seja encontrado
     }
   }
+
+  // async login(req, res) {
+  //   try {
+  //     const { email, senha } = req.body;
+
+  //     if (!email || !senha) {
+  //       return res.status(400).json({ error: "Email e senha são obrigatórios." });
+  //     }
+
+  //     const loginResponse = await usuarioService.loginUsuario(email, senha);
+      
+  //     return res.status(200).json(loginResponse); // Retorna o usuário com o token
+  //   } catch (error) {
+  //     res.status(401).json({ error: error.message }); // Retorna erro de autenticação
+  //   }
+  // }
+
+// async loginUsuario(email, senha) {
+//   try {
+//     // Buscar o usuário no banco de dados pelo email
+//     const [usuarios] = await db.execute("SELECT * FROM usuarios WHERE email = ?", [email]);
+
+//     if (!usuarios || usuarios.length === 0) {
+//       throw new Error("Usuário não encontrado.");
+//     }
+
+//     const usuarioEncontrado = usuarios[0]; // Pegando o primeiro usuário encontrado
+
+//     // Verificar se o usuário está ativo
+//     if (usuarioEncontrado.ativo === 0) {
+//       throw new Error("Usuário está inativo.");
+//     }
+
+//     // Verificar se a senha está correta
+//     const senhaValida = await bcrypt.compare(senha, usuarioEncontrado.senha);
+
+//     if (!senhaValida) {
+//       throw new Error("Senha inválida.");
+//     }
+
+//     // Gerar o token JWT com a expiração configurada corretamente
+//     const token = jwt.sign(
+//       {
+//         id: usuarioEncontrado.id,
+//         email: usuarioEncontrado.email,
+//         role: usuarioEncontrado.role,
+//       },
+//       process.env.JWT_SECRET,
+//       { expiresIn: process.env.JWT_EXPIRES_IN }
+//     );
+
+//     return {
+//       id: usuarioEncontrado.id,
+//       email: usuarioEncontrado.email,
+//       role: usuarioEncontrado.role,
+//       token: token,
+//     };
+//   } catch (error) {
+//     console.error("Erro no login:", error);
+//     throw new Error("Erro ao realizar login.");
+//   }
+// }
+
+async login(req, res) {
+  try {
+    const { email, senha } = req.body;
+
+    if (!email || !senha) {
+      return res.status(400).json({ error: "Email e senha são obrigatórios." });
+    }
+
+    const loginResponse = await usuarioService.loginUsuario(email, senha);
+    
+    return res.status(200).json(loginResponse); // Retorna o usuário com o token
+  } catch (error) {
+    res.status(401).json({ error: error.message }); // Retorna erro de autenticação
+  }
 }
 
-// Remova a linha abaixo, pois está sobrescrevendo o `UsuarioService`:
-// module.exports = UsuarioService;
+  async atualizarRoleEAtivoUsuario(req, res) {
+
+    try {
+      const { id } = req.params;
+      const dados = req.body; // Certifique-se de que os dados estão sendo recebidos corretamente
+      const resposta = await usuarioService.atualizarRoleEAtivoUsuario(id, dados);
+      res.status(200).json(resposta);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
+}
 
 module.exports = new UsuarioController();

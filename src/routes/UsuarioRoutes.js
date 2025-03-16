@@ -1,13 +1,15 @@
 const express = require("express");
 const UsuarioController = require("../controllers/UsuarioController");
+const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// Rota para criar um novo usuário
-router.post("/usuarios", UsuarioController.criarUsuario);
-router.get("/usuarios", UsuarioController.listarTodosUsuarios);
-router.put("/usuarios/atualizar-senha/:id", UsuarioController.atualizarSenhaUsuario);
-router.put('/usuarios/atualizar-role-ativo/:id', UsuarioController.atualizarRoleEAtivoUsuario);
-router.get('/usuarios/bucar/:id', UsuarioController.buscarUsuarioPorId);
+router.post("/usuarios", authMiddleware("admin") ,UsuarioController.criarUsuario);
+router.get("/usuarios", authMiddleware("admin") ,UsuarioController.listarTodosUsuarios);
+router.put("/usuarios/atualizar-senha/:id", authMiddleware("user") ,UsuarioController.atualizarSenhaUsuario);
+router.put('/usuarios/atualizar-role-ativo/:id', authMiddleware("admin") ,UsuarioController.atualizarRoleEAtivoUsuario);
+router.get('/usuarios/bucar/:id', authMiddleware("admin"), UsuarioController.buscarUsuarioPorId);
+
+router.post("/auth/login", UsuarioController.login); // Login
 
 module.exports = router;
