@@ -11,7 +11,7 @@
    - [Exemplo de Requisição](#exemplo-de-requisição)
 6. [Segurança](#segurança)
 7. [Estrutura do Projeto](#estrutura-do-projeto)
-8.  
+8. [Estrutura do banco de dados](#estrutura-do-banco-de-dados)
 9. [Como Subir o Projeto](#como-subir-o-projeto)
 
 ---
@@ -230,11 +230,49 @@ backend/
 
 ```
 
+## estrutura-do-banco-de-dados
+Banco de Dados
+A aplicação utiliza o MySQL como banco de dados relacional para armazenar as informações de usuários.
+
+Configuração do Banco de Dados
+
+1. Instale o MySQL se não o tiver instalado. Você pode obter o MySQL aqui.
+
+Crie um banco de dados chamado app_db no MySQL:
+sql
+CREATE DATABASE app_db;
+
+Configure as credenciais de acesso ao banco de dados no arquivo .env:
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=sua_senha
+DB_NAME=app_db
+
+
+Crie as tabelas necessárias. Você pode criar uma tabela de usuários com o seguinte comando SQL:
+Editar
+CREATE TABLE usuarios (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  senha VARCHAR(255) NOT NULL,
+  role ENUM('admin', 'usuario') DEFAULT 'usuario',
+  ativo BOOLEAN DEFAULT TRUE
+);
+   ```
+
+
+Após configurar o banco de dados e a tabela, você pode rodar o servidor usando o comando npm start.
+
+
+   ```
+
 ## Como Subir o Projeto
 
 1. Clone o repositório:
 
-   ```bash
+   ```
+   bash
    git clone <URL_DO_REPOSITORIO>
    ```
 
