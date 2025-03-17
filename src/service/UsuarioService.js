@@ -176,10 +176,7 @@ class UsuarioService {
       );
   
       return {
-        id: usuarioEncontrado.id,
-        email: usuarioEncontrado.email,
-        role: usuarioEncontrado.role,
-        token: token,
+        token: token
       };
     } catch (error) {
       console.error("Erro no login:", error);
@@ -206,5 +203,16 @@ class UsuarioService {
       throw new Error("Erro ao verificar permissão.");
     }
   }
+
+  async logout(token) {
+    try {
+      return { message: "Logout realizado com sucesso." }; // Sucesso no logout
+    } catch (error) {
+      console.error("Erro ao tentar realizar o logout:", error);
+      throw new Error("Erro ao realizar logout.");
+    }
+  }
+  
+
 }
 module.exports = UsuarioService;

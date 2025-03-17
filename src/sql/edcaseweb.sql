@@ -113,3 +113,8 @@ CREATE TABLE usuarios (
     ativo BOOLEAN DEFAULT false
 );
 
+CREATE TABLE tokens_revogados (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    token TEXT NOT NULL,
+    expira_em TIMESTAMP NOT NULL
+);

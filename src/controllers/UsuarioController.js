@@ -1,5 +1,6 @@
 // Atualize seu arquivo UsuarioController.js assim:
-const authMiddleware = require("../middleware/authMiddleware");
+const verificarTokenRevogado = require("../middleware/tokenMiddleware");
+const db = require("../config/database");
 const UsuarioService = require("../service/UsuarioService");
 const usuarioService = new UsuarioService();
 
@@ -32,7 +33,10 @@ class UsuarioController {
         return res.status(400).json({ error: "A nova senha é obrigatória." });
       }
 
-      const resposta = await usuarioService.atualizarSenhaUsuario(id, novaSenha);
+      const resposta = await usuarioService.atualizarSenhaUsuario(
+        id,
+        novaSenha
+      );
       res.status(200).json(resposta);
     } catch (error) {
       res.status(500).json({ error: "Erro ao atualizar senha." });
@@ -44,7 +48,10 @@ class UsuarioController {
     const dados = req.body;
 
     try {
-      const resultado = await usuarioService.atualizarRoleEAtivoUsuario(id, dados);
+      const resultado = await usuarioService.atualizarRoleEAtivoUsuario(
+        id,
+        dados
+      );
       res.status(200).json(resultado);
     } catch (error) {
       res.status(400).json({ error: error.message });
@@ -64,96 +71,64 @@ class UsuarioController {
     }
   }
 
-  // async login(req, res) {
-  //   try {
-  //     const { email, senha } = req.body;
+  async login(req, res) {
+    try {
+      const { email, senha } = req.body;
 
-  //     if (!email || !senha) {
-  //       return res.status(400).json({ error: "Email e senha são obrigatórios." });
-  //     }
+      if (!email || !senha) {
+        return res
+          .status(400)
+          .json({ error: "Email e senha são obrigatórios." });
+      }
 
-  //     const loginResponse = await usuarioService.loginUsuario(email, senha);
-      
-  //     return res.status(200).json(loginResponse); // Retorna o usuário com o token
-  //   } catch (error) {
-  //     res.status(401).json({ error: error.message }); // Retorna erro de autenticação
-  //   }
-  // }
+      const loginResponse = await usuarioService.loginUsuario(email, senha);
 
-// async loginUsuario(email, senha) {
-//   try {
-//     // Buscar o usuário no banco de dados pelo email
-//     const [usuarios] = await db.execute("SELECT * FROM usuarios WHERE email = ?", [email]);
-
-//     if (!usuarios || usuarios.length === 0) {
-//       throw new Error("Usuário não encontrado.");
-//     }
-
-//     const usuarioEncontrado = usuarios[0]; // Pegando o primeiro usuário encontrado
-
-//     // Verificar se o usuário está ativo
-//     if (usuarioEncontrado.ativo === 0) {
-//       throw new Error("Usuário está inativo.");
-//     }
-
-//     // Verificar se a senha está correta
-//     const senhaValida = await bcrypt.compare(senha, usuarioEncontrado.senha);
-
-//     if (!senhaValida) {
-//       throw new Error("Senha inválida.");
-//     }
-
-//     // Gerar o token JWT com a expiração configurada corretamente
-//     const token = jwt.sign(
-//       {
-//         id: usuarioEncontrado.id,
-//         email: usuarioEncontrado.email,
-//         role: usuarioEncontrado.role,
-//       },
-//       process.env.JWT_SECRET,
-//       { expiresIn: process.env.JWT_EXPIRES_IN }
-//     );
-
-//     return {
-//       id: usuarioEncontrado.id,
-//       email: usuarioEncontrado.email,
-//       role: usuarioEncontrado.role,
-//       token: token,
-//     };
-//   } catch (error) {
-//     console.error("Erro no login:", error);
-//     throw new Error("Erro ao realizar login.");
-//   }
-// }
-
-async login(req, res) {
-  try {
-    const { email, senha } = req.body;
-
-    if (!email || !senha) {
-      return res.status(400).json({ error: "Email e senha são obrigatórios." });
+      return res.status(200).json(loginResponse); // Retorna o usuário com o token
+    } catch (error) {
+      res.status(401).json({ error: error.message }); // Retorna erro de autenticação
     }
-
-    const loginResponse = await usuarioService.loginUsuario(email, senha);
-    
-    return res.status(200).json(loginResponse); // Retorna o usuário com o token
-  } catch (error) {
-    res.status(401).json({ error: error.message }); // Retorna erro de autenticação
   }
-}
 
   async atualizarRoleEAtivoUsuario(req, res) {
-
     try {
       const { id } = req.params;
       const dados = req.body; // Certifique-se de que os dados estão sendo recebidos corretamente
-      const resposta = await usuarioService.atualizarRoleEAtivoUsuario(id, dados);
+      const resposta = await usuarioService.atualizarRoleEAtivoUsuario(
+        id,
+        dados
+      );
       res.status(200).json(resposta);
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
   }
 
+  async logout(req, res) {
+    try {
+      const token = req.headers["authorization"]?.split(" ")[1]; // Pega o token da requisição
+      
+      if (!token) {
+        return res.status(400).json({ message: "Token não fornecido." });
+      }
+
+      // Registra o token como revogado no banco de dados
+      const tokenRevogado = await verificarTokenRevogado(token); // Checa se o token já está revogado
+      if (tokenRevogado) {
+        return res.status(400).json({ message: "Token já revogado." });
+      }
+
+      // Aqui você poderia, por exemplo, inserir o token na tabela de revogados
+      await db.execute("INSERT INTO tokens_revogados (token) VALUES (?)", [
+        token,
+      ]);
+
+      // Resposta de sucesso
+      return res.status(200).json({ message: "Logout realizado com sucesso." });
+    } catch (error) {
+      console.error("Erro ao realizar logout:", error);
+      return res.status(500).json({ message: "Erro ao realizar logout." });
+    }
+  }
 }
 
 module.exports = new UsuarioController();

@@ -1,6 +1,7 @@
 const express = require("express");
 const UsuarioController = require("../controllers/UsuarioController");
 const authMiddleware = require("../middleware/authMiddleware");
+const verificarToken = require("../middleware/tokenMiddleware");
 
 const router = express.Router();
 
@@ -11,5 +12,5 @@ router.put('/usuarios/atualizar-role-ativo/:id', authMiddleware("admin") ,Usuari
 router.get('/usuarios/bucar/:id', authMiddleware("admin"), UsuarioController.buscarUsuarioPorId);
 
 router.post("/auth/login", UsuarioController.login); // Login
-
+router.post("/auth/logout", UsuarioController.logout);//logout
 module.exports = router;
