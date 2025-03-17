@@ -106,7 +106,8 @@ class UsuarioController {
   async logout(req, res) {
     try {
       const token = req.headers["authorization"]?.split(" ")[1]; // Pega o token da requisição
-      
+      const email = req.body.email;
+
       if (!token) {
         return res.status(400).json({ message: "Token não fornecido." });
       }
@@ -118,9 +119,10 @@ class UsuarioController {
       }
 
       // Aqui você poderia, por exemplo, inserir o token na tabela de revogados
-      await db.execute("INSERT INTO tokens_revogados (token) VALUES (?)", [
-        token,
-      ]);
+      await db.execute(
+        "INSERT INTO tokens_revogados (token, email) VALUES (?,?)",
+        [token, email]
+      );
 
       // Resposta de sucesso
       return res.status(200).json({ message: "Logout realizado com sucesso." });

@@ -28,11 +28,7 @@ class UsuarioService {
       // Inserir no banco de dados
       const [resultado] = await db.execute(
         "INSERT INTO usuarios (email, senha, ativo) VALUES (?, ?, ?)",
-        [
-          novoUsuario.email,
-          novoUsuario.senha,
-          novoUsuario.ativo,
-        ]
+        [novoUsuario.email, novoUsuario.senha, novoUsuario.ativo]
       );
 
       // Retorna o usuário criado (sem incluir a senha)
@@ -86,9 +82,9 @@ class UsuarioService {
   async atualizarRoleEAtivoUsuario(id, dados) {
     try {
       console.log(dados); // Verificando o que está sendo passado como 'dados'
-  
+
       const { role, ativo } = dados;
-  
+
       // Verificar se a role é válida
       const rolesPermitidas = ["user", "manager", "admin"];
       if (!rolesPermitidas.includes(role)) {
@@ -96,24 +92,24 @@ class UsuarioService {
           "Role inválida. As permissões permitidas são: user, manager, admin."
         );
       }
-  
+
       // Verificar se o valor de 'ativo' é booleano
       if (typeof ativo !== "boolean") {
         throw new Error(
           'O campo "ativo" deve ser um valor booleano (true ou false).'
         );
       }
-  
+
       // Atualizar os dados do usuário
       const [resultado] = await db.execute(
         "UPDATE usuarios SET role = ?, ativo = ? WHERE id = ?",
         [role, ativo, id]
       );
-  
+
       if (resultado.affectedRows === 0) {
         throw new Error("Usuário não encontrado.");
       }
-  
+
       return { message: "Role e status do usuário atualizados com sucesso." };
     } catch (error) {
       console.error("Erro ao atualizar role e ativo do usuário:", error);
@@ -122,7 +118,6 @@ class UsuarioService {
       );
     }
   }
-  
 
   async buscarUsuarioPorId(id) {
     try {
@@ -144,26 +139,29 @@ class UsuarioService {
   async loginUsuario(email, senha) {
     try {
       // Buscar o usuário no banco de dados pelo email
-      const [usuarios] = await db.execute("SELECT * FROM usuarios WHERE email = ?", [email]);
-  
+      const [usuarios] = await db.execute(
+        "SELECT * FROM usuarios WHERE email = ?",
+        [email]
+      );
+
       if (!usuarios || usuarios.length === 0) {
         throw new Error("Usuário não encontrado.");
       }
-  
+
       const usuarioEncontrado = usuarios[0]; // Pegando o primeiro usuário encontrado
-  
+
       // Verificar se o usuário está ativo
       if (usuarioEncontrado.ativo === 0) {
         throw new Error("Usuário está inativo.");
       }
-  
+
       // Verificar se a senha está correta
       const senhaValida = await bcrypt.compare(senha, usuarioEncontrado.senha);
-  
+
       if (!senhaValida) {
         throw new Error("Senha inválida.");
       }
-  
+
       // Gerar o token JWT com a expiração configurada corretamente
       const token = jwt.sign(
         {
@@ -174,16 +172,21 @@ class UsuarioService {
         process.env.JWT_SECRET,
         { expiresIn: process.env.JWT_EXPIRES_IN }
       );
-  
+
+      // Salva o token no banco de dados, incluindo a data de login
+      const dataLogin = new Date(); // A data e hora do login
+      await db.execute(
+        "INSERT INTO tokens_ativos (token, email, data_login) VALUES (?, ?, ?)",
+        [token, email, dataLogin]
+      );
       return {
-        token: token
+        token: token,
       };
     } catch (error) {
       console.error("Erro no login:", error);
       throw new Error("Erro ao realizar login.");
     }
   }
-  
 
   // Método para verificar se o usuário tem permissão de admin
   async verificarPermissaoAdmin(id) {
@@ -212,7 +215,5 @@ class UsuarioService {
       throw new Error("Erro ao realizar logout.");
     }
   }
-  
-
 }
 module.exports = UsuarioService;
