@@ -4,10 +4,10 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-router.post("/categorias", authMiddleware(['admin', 'user']),CategoriaController.criarCategoria);
-router.get("/categorias", authMiddleware(['admin', 'user']),CategoriaController.buscarTodasCategorias);
-router.get("/categorias/:id", authMiddleware(['admin', 'user']),CategoriaController.buscarCategoriaPorId);
-router.get("/categorias/nome/busca",authMiddleware(['admin', 'user']), CategoriaController.buscarCategoriaPorNome);
-router.put("/categorias/:id",authMiddleware(['admin', 'user']), CategoriaController.atualizarCategoria);
+router.post("/categorias", authMiddleware(['manager','user']),CategoriaController.criarCategoria);
+router.get("/categorias", authMiddleware(['manager','user']),CategoriaController.buscarTodasCategorias);
+router.get("/categorias/:id", authMiddleware(['manager','user']),CategoriaController.buscarCategoriaPorId);
+router.get("/categorias/nome/busca",authMiddleware(['manager','user']), CategoriaController.buscarCategoriaPorNome);
+router.put("/categorias/:id", authMiddleware(['manager','user']), CategoriaController.atualizarCategoria);
 
 module.exports = router;

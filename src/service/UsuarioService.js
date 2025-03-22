@@ -181,6 +181,7 @@ class UsuarioService {
       );
       return {
         token: token,
+        role: usuarioEncontrado.role,
       };
     } catch (error) {
       console.error("Erro no login:", error);

@@ -19,6 +19,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Usar o middleware CORS no Express
+app.use(cors({
+  origin: 'http://localhost:3001', // URL do frontend React
+  methods: ['GET', 'POST', 'PUT','PATCH', 'DELETE'], // Métodos permitidos
+  allowedHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
+}));
+
+
 // Registrar as rotas
 app.use("/api", categoriaRoutes);
 app.use("/api", autorRoutes);
@@ -34,5 +42,5 @@ app.use('/api', usuarioRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+  console.info(``);
 });

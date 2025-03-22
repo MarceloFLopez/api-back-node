@@ -43,7 +43,6 @@ class EditoraController {
         return res.status(400).json({ mensagem: "O nome da Editora é obrigatório na query!" });
       }
       const editores = await EditoraService.buscarEditoraPorId(nome);
-      console.log(nome);
       return res.status(200).json(editores);
     } catch (error) {
       return res.status(500).json({ mensagem: "Erro ao buscar editores por nome", erro: error.message });

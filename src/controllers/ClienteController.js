@@ -47,7 +47,6 @@ class ClienteController {
         return res.status(400).json({ mensagem: "O nome da cliente é obrigatório na query!" });
       }
       const clientes = await ClienteService.buscarClientePorNome(nome);
-      console.log(nome);
       return res.status(200).json(clientes);
     } catch (error) {
       return res.status(500).json({ mensagem: "Erro ao buscar cliente por nome", erro: error.message });

@@ -47,7 +47,6 @@ class AutorController {
         return res.status(400).json({ mensagem: "O nome da Autor é obrigatório na query!" });
       }
       const autores = await AutorService.buscarAutorPorNome(nome);
-      console.log(nome);
       return res.status(200).json(autores);
     } catch (error) {
       return res.status(500).json({ mensagem: "Erro ao buscar autore por nome", erro: error.message });

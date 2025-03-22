@@ -4,12 +4,12 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-router.post("/revistas",authMiddleware(['admin', 'user']), RevistaController.criarRevista);
-router.get("/revistas/:id",authMiddleware(['admin', 'user']), RevistaController.buscarPorId);
-router.get("/revistas/nome/busca", authMiddleware(['admin', 'user']),RevistaController.buscarPorNome);
-router.get("/revistas", authMiddleware(['admin', 'user']),RevistaController.buscarTodasRevistas);
-router.put("/revistas/:id", authMiddleware(['admin', 'user']),RevistaController.atualizarRevista);
-router.delete("/revistas/:id",authMiddleware(['admin', 'user']), RevistaController.deletarRevista); 
+router.post("/revistas",authMiddleware(['manager', 'user']), RevistaController.criarRevista);
+router.get("/revistas/:id",authMiddleware(['manager', 'user']), RevistaController.buscarPorId);
+router.get("/revistas/nome/busca", authMiddleware(['manager', 'user']),RevistaController.buscarPorNome);
+router.get("/revistas", authMiddleware(['manager', 'user']),RevistaController.buscarTodasRevistas);
+router.put("/revistas/:id", authMiddleware(['manager', 'user']),RevistaController.atualizarRevista);
+router.delete("/revistas/:id",authMiddleware(['manager', 'user']), RevistaController.deletarRevista); 
 
 
 module.exports = router;

@@ -45,7 +45,6 @@ class SaqueController {
       }
       return res.status(200).json(saques); // Retorna os saques encontrados
     } catch (error) {
-      console.log(error); // Para depuração de erros
       return res.status(500).json({ message: "Erro ao buscar saques pela plataforma", error: error.message });
     }
   }

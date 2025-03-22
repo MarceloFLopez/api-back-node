@@ -27,7 +27,6 @@ class CategoriaController {
 
   // Buscar categoria por ID
   static async buscarCategoriaPorId(req, res) {
-    console.log("🔴 Método buscarCategoriaPorNome chamado!");
     try {
       const { id } = req.params;
       const categoria = await CategoriaService.buscarCategoriaPorId(id);
@@ -42,14 +41,12 @@ class CategoriaController {
 
   // Buscar categoria por nome
   static async buscarCategoriaPorNome(req, res) {
-    console.log("🟢 Método buscarCategoriaPorNome chamado!");
     try {
       const { nome } = req.query;
       if (!nome) {
         return res.status(400).json({ mensagem: "O nome da categoria é obrigatório na query!" });
       }
       const categorias = await CategoriaService.buscarCategoriaPorNome(nome);
-      console.log(nome);
       return res.status(200).json(categorias);
     } catch (error) {
       return res.status(500).json({ mensagem: "Erro ao buscar categoria por nome", erro: error.message });
